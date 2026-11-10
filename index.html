@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>דניאל רום – ניהול לידים</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/mark.jpg">
+<link rel="apple-touch-icon" href="assets/mark.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="לידים">
+<meta name="theme-color" content="#050a14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="glow"></div>
+<div id="app">
+
+  <header class="top">
+    <div class="brand">
+      <img src="assets/mark.jpg" alt="" class="logo">
+      <div>
+        <h1>ניהול <em>לידים</em></h1>
+        <small>דניאל רום · ייעוץ עסקי</small>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost" id="exportBtn" title="ייצוא לאקסל (CSV)">ייצוא</button>
+      <button class="btn gold" id="addBtn">+ ליד חדש</button>
+    </div>
+  </header>
+
+  <div class="banner" id="localBanner" hidden>
+    הנתונים נשמרים כרגע רק בדפדפן הזה. כדי לעבוד מכל מכשיר, מחברים את Supabase (ההוראות ב־README).
+  </div>
+  <div class="banner err" id="errBanner" hidden></div>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="pipeline" id="pipeline" aria-label="סינון לפי סטטוס"></section>
+
+  <section class="panel">
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="חיפוש לפי שם, טלפון או הערה">
+      <select id="fDomain"><option value="">כל התחומים</option></select>
+      <select id="fSort">
+        <option value="date_desc">תאריך: חדש לישן</option>
+        <option value="date_asc">תאריך: ישן לחדש</option>
+        <option value="name">שם</option>
+        <option value="status">סטטוס</option>
+      </select>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="leads">
+        <thead>
+          <tr>
+            <th>שם מלא</th>
+            <th>טלפון נייד</th>
+            <th>תאריך</th>
+            <th>תחום העסק</th>
+            <th>סטטוס</th>
+            <th>הערות</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="cards" id="cards"></div>
+    <div class="empty" id="empty" hidden>אין עדיין לידים כאן. לוחצים על "+ ליד חדש" כדי להתחיל.</div>
+  </section>
+</div>
+
+<!-- חלונית הוספה ועריכה -->
+<dialog id="dlg">
+  <form id="form" method="dialog">
+    <h2 id="dlgTitle">ליד חדש</h2>
+    <div class="grid">
+      <label>שם פרטי<input name="first_name" required autocomplete="off"></label>
+      <label>שם משפחה<input name="last_name" autocomplete="off"></label>
+      <label>טלפון נייד<input name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="050-0000000"></label>
+      <label>תאריך<input name="date" type="date" required></label>
+      <label>תחום העסק<select name="domain"></select></label>
+      <label>סטטוס<select name="status"></select></label>
+      <label class="wide">הערות<textarea name="notes" rows="4"></textarea></label>
+    </div>
+    <div class="dlg-actions">
+      <button type="button" class="btn danger ghost" id="delBtn" hidden>מחיקה</button>
+      <span class="sp"></span>
+      <button type="button" class="btn ghost" id="cancelBtn">ביטול</button>
+      <button type="submit" class="btn gold" id="saveBtn">שמירה</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- מסך קוד גישה (רק כשמחוברים ל־Supabase ואין קוד בקישור) -->
+<dialog id="codeDlg">
+  <form id="codeForm" method="dialog">
+    <h2>כניסה לדשבורד</h2>
+    <p class="muted">מקלידים את קוד הגישה (הוא נמצא בסוף הקישור שקיבלת, אחרי ‎?k=).</p>
+    <input name="code" dir="ltr" required autocomplete="off">
+    <div class="dlg-actions"><span class="sp"></span><button class="btn gold">כניסה</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

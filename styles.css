@@ -1,0 +1,183 @@
+/* המותג של דניאל רום: כחול לילה, זהב ולבן. כותרות בסריף, כמו בלוגו (מתוך מחשבון "כסף על הרצפה") */
+:root {
+  --bg: #050a14;
+  --panel: #0e1a2f;
+  --panel-2: #13223b;
+  --sunk: #0a1324;
+  --line: rgba(214, 178, 94, 0.18);
+  --line-soft: rgba(255, 255, 255, 0.08);
+  --text: #f4f1ea;
+  --muted: #a3acbd;
+  --gold: #d6b25e;
+  --gold-hi: #f1d488;
+  --gold-lo: #a97c2c;
+  --red: #e2735f;
+  --amber: #e6b04b;
+  --green: #5fbf8f;
+  --blue: #7aa7ff;
+  --r: 14px;
+  --r-lg: 18px;
+  --serif: "Frank Ruhl Libre", "Times New Roman", serif;
+  --sans: "Heebo", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --gold-grad: linear-gradient(135deg, var(--gold-hi), var(--gold) 45%, var(--gold-lo));
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+[hidden] { display: none !important; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.muted { color: var(--muted); }
+.glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(60% 40% at 85% -5%, rgba(214, 178, 94, 0.14), transparent 70%),
+    radial-gradient(70% 50% at 10% 110%, rgba(40, 70, 130, 0.25), transparent 70%);
+}
+#app {
+  position: relative; z-index: 1;
+  max-width: 1280px; margin: 0 auto;
+  padding: 16px max(16px, env(safe-area-inset-left)) 48px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+/* כותרת */
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 14px 18px;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; border: 1px solid var(--line); }
+.brand h1 { margin: 0; font-family: var(--serif); font-weight: 900; font-size: 27px; line-height: 1.05; }
+.brand h1 em { font-style: normal; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.brand small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+.top-actions { margin-inline-start: auto; display: flex; gap: 8px; }
+
+.btn {
+  border: 1px solid var(--line); background: var(--sunk); color: var(--text);
+  border-radius: 999px; padding: 9px 18px; font-weight: 700; font-size: 14.5px;
+  transition: transform .1s, filter .15s;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active { transform: translateY(1px); }
+.btn.gold { background: var(--gold-grad); color: #0b0a08; border-color: transparent; }
+.btn.ghost { background: transparent; }
+.btn.danger { color: var(--red); border-color: rgba(226, 115, 95, .4); }
+
+.banner { border: 1px solid var(--line); background: rgba(214, 178, 94, .08); color: var(--gold-hi); border-radius: var(--r); padding: 10px 14px; font-size: 14px; }
+.banner.err { border-color: rgba(226, 115, 95, .45); background: rgba(226, 115, 95, .1); color: #ffb3a5; }
+
+/* מדדים */
+.kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.kpi { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r); padding: 12px 14px; }
+.kpi .v { font-family: var(--serif); font-size: 30px; font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .l { color: var(--muted); font-size: 13px; }
+.kpi .s { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.kpi.gold .v { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* פס הסטטוסים */
+.pipeline { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.chip {
+  flex: none; display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--line-soft); background: var(--panel); border-radius: 999px;
+  padding: 6px 12px; font-size: 13.5px; font-weight: 600; white-space: nowrap;
+}
+.chip b { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 700; }
+.chip.on { border-color: var(--gold); background: rgba(214, 178, 94, .14); color: var(--gold-hi); }
+.chip.on b { color: var(--gold-hi); }
+
+/* צבעי סטטוס לפי שלב */
+.st-open { --sc: var(--blue); }
+.st-meeting { --sc: var(--amber); }
+.st-won { --sc: var(--green); }
+.st-lost { --sc: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sc, var(--muted)); flex: none; }
+
+/* טבלה */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line-soft); }
+.toolbar input, .toolbar select, .grid input, .grid select, .grid textarea, #codeForm input {
+  background: var(--sunk); border: 1px solid var(--line-soft); border-radius: 10px; padding: 8px 12px; min-width: 0;
+}
+.toolbar input { flex: 1 1 220px; }
+.count { color: var(--muted); font-size: 13px; margin-inline-start: auto; }
+.table-wrap { overflow-x: auto; }
+table.leads { width: 100%; border-collapse: collapse; }
+.leads th { text-align: start; font-size: 12.5px; font-weight: 600; color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+.leads td { padding: 10px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+.leads tr:hover td { background: rgba(255, 255, 255, .02); }
+.leads td.name { font-weight: 700; white-space: nowrap; }
+.leads td.notes { color: var(--muted); max-width: 360px; white-space: pre-wrap; font-size: 13.5px; }
+.leads td.date { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.phone { direction: ltr; unicode-bidi: isolate; white-space: nowrap; display: inline-flex; gap: 8px; align-items: center; }
+.phone a { color: var(--text); text-decoration: none; }
+.phone a.wa { color: var(--green); font-size: 12px; font-weight: 700; border: 1px solid rgba(95, 191, 143, .35); border-radius: 999px; padding: 1px 8px; }
+.st-select {
+  appearance: none; -webkit-appearance: none; border: 1px solid var(--line-soft); background: var(--sunk);
+  border-radius: 999px; padding: 4px 12px 4px 12px; font-size: 13px; font-weight: 700;
+  color: var(--sc, var(--text)); box-shadow: inset 3px 0 0 var(--sc, transparent);
+}
+.st-select option { color: var(--text); background: var(--panel); }
+.edit { background: none; border: 1px solid var(--line-soft); border-radius: 8px; padding: 4px 10px; color: var(--muted); font-size: 13px; }
+.edit:hover { color: var(--gold-hi); border-color: var(--gold); }
+.empty { padding: 32px 16px; text-align: center; color: var(--muted); }
+
+/* כרטיסים בנייד */
+.cards { display: none; }
+.card { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); display: grid; gap: 6px; }
+.card .row1 { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.card .nm { font-weight: 800; font-size: 16px; }
+.card .meta { color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.card .nt { color: var(--muted); font-size: 13.5px; white-space: pre-wrap; }
+.card .row2 { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+
+@media (max-width: 900px) {
+  .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .table-wrap { display: none; }
+  .cards { display: block; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand h1 { font-size: 23px; }
+  .top-actions { width: 100%; }
+  .top-actions .btn.gold { flex: 1; }
+  .toolbar select { flex: 1 1 140px; }
+  .count { width: 100%; margin: 0; }
+}
+
+/* חלונית */
+dialog {
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--panel); color: var(--text);
+  padding: 0; width: min(560px, calc(100vw - 32px));
+}
+dialog::backdrop { background: rgba(2, 5, 12, .7); backdrop-filter: blur(3px); }
+dialog form { padding: 18px 20px; }
+dialog h2 { margin: 0 0 14px; font-family: var(--serif); font-size: 22px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.grid label input, .grid label select, .grid label textarea { color: var(--text); font-size: 15px; font-weight: 400; }
+.grid .wide { grid-column: 1 / -1; }
+.grid textarea { resize: vertical; }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+.dlg-actions { display: flex; gap: 8px; margin-top: 16px; align-items: center; }
+.dlg-actions .sp { flex: 1; }
+#codeForm input { width: 100%; margin-top: 8px; }
+
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10;
+  background: var(--panel-2); border: 1px solid var(--gold); color: var(--gold-hi);
+  border-radius: 999px; padding: 8px 18px; font-weight: 700; font-size: 14px;
+}
